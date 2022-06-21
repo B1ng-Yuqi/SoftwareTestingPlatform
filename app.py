@@ -10,16 +10,18 @@ import re
 # import utils
 import q1_triangle
 #import myCalendar
-#import commission
-#import comm_fee
 import q3_sales_system
+import q4_commission
+#import comm_fee
+
 #import tran_tree
 #import q9
 #import discuss_2
 #import eshop_boundary_4
 #import cs_package_7
 #import scenario_testing_10
-#import cs_web_11
+import q14_web
+import q17_salesman
 #import testing_tools as tools
 
 st.sidebar.title('软件测试平台')
@@ -164,3 +166,187 @@ elif option == '3.讨论题：销售管理系统':
     st.markdown(q3_sales_system.answer1)
     st.markdown(q3_sales_system.answer2)
 
+if option == '4.佣金问题':
+    option2 = st.sidebar.selectbox(
+        "选择输入数据的方式",
+        ["问题描述", "边界值分析法", '通过.csv文件输入']
+    )
+    commission_data = None
+
+    if option2 == "问题描述":
+        st.header("问题描述")
+        st.markdown(q4_commission.description)
+
+    elif option2 == "边界值分析法":
+        st.header("边界值法")
+        st.markdown(q4_commission.md1)
+        st.table(pd.read_csv("q4_commission/基本边界值.csv"))
+        st.markdown(q4_commission.md2)
+        st.table(pd.read_csv("q4_commission/设备健壮性边界.csv"))
+        st.markdown(q4_commission.md3)
+        st.table(pd.read_csv("q4_commission/销售额基本边界值.csv"))
+        st.markdown(q4_commission.md4)
+        commission_data = pd.read_csv("q4_commission/佣金问题-边界值.csv")
+
+    else:
+        st.header('通过.csv文件输入')
+        uploaded_file = st.file_uploader("", type="csv")
+        if uploaded_file is not None:
+            commission_data = pd.read_csv(uploaded_file)
+        if st.checkbox('展示测试样例'):
+            st.write(commission_data)
+
+    if option2 != "问题描述":
+        if st.button("开始测试 :)"):
+            st.header("测试结果")
+            latest_iteration = st.empty()
+            bar = st.progress(0)
+            if commission_data is None:
+                st.warning('数据为空!请检查输入!')
+            n_sample = commission_data.shape[0]
+            n_right, n_wrong = 0, 0
+            wrong_samples = []
+            time_start = time.time()
+            st.set_option('deprecation.showPyplotGlobalUse', False)
+            for i in range(1, n_sample + 1):
+                x = commission_data.loc[i - 1]['x']
+                y = commission_data.loc[i - 1]['y']
+                z = commission_data.loc[i - 1]['z']
+                expect = commission_data.loc[i - 1]['q4_commission']
+                output = q4_commission.calculate_computer_commission([x, y, z])
+                if float(expect) == output:
+                    n_right = n_right + 1
+                else:
+                    n_wrong = n_wrong + 1
+                    wrong_samples.append((output, expect, i, f'({x}, {y}, {z})'))
+                if float(expect) == -1:
+                    n_right = n_sample
+                    latest_iteration.text(
+                        f'Progress: {n_sample}/{n_sample}. Accuracy: {round(n_right / n_sample, 2) * 100}%')
+                    bar.progress(n_sample / n_sample)
+                    break
+                latest_iteration.text(
+                    f'Progress: {n_sample}/{i}. Accuracy: {round(n_right / n_sample, 2) * 100}%')
+                bar.progress(i / n_sample)
+                time.sleep(0.01)
+            time_end = time.time()
+            if n_wrong == 0:
+                text = "tests" if n_sample > 1 else "test"
+                st.success(
+                    f"{n_sample} {text} passed in {round((time_end - time_start) * 1000 - n_sample * 10, 2)} ms.")
+            else:
+                if n_right == 0:
+                    st.error("All tests failed.")
+                else:
+                    st.warning(f"{n_right} passed. {n_wrong} failed.")
+                for sample in wrong_samples:
+                    st.error(f"Test #{sample[2]}: {sample[3]} - Output {sample[0]} is expected to be {sample[1]}")
+
+            st.header("测试结果分析")
+            labels = 'pass', 'fail'
+            sizes = [n_right, n_wrong]
+            plt.pie(sizes, labels=labels, autopct='%1.1f%%', startangle=90)
+            plt.axis('equal')
+            st.pyplot()
+
+elif option == '11.正交实验法-WEB系统':
+    option2 = st.sidebar.selectbox(
+        "请选择想要查看的部分",
+        ["问题描述", "状态因素表", "正交表", "测试用例"]
+    )
+    st.header(option2)
+    if option2 == "问题描述":
+        st.markdown(q14_web.content)
+    elif option2 == "状态因素表":
+        st.markdown(q14_web.table1)
+    elif option2 == "正交表":
+        st.markdown(q14_web.table2)
+    elif option2 == "测试用例":
+        st.markdown(q14_web.table3)
+
+elif option == '13.销售系统问题':
+    option2 = st.sidebar.selectbox(
+        "选择输入数据的方式",
+        ["问题描述", "流程图", "语句覆盖", "判断覆盖",
+         "条件覆盖", "判断—条件覆盖", "条件组合覆盖"]
+    )
+    salesman_data = None
+
+    if option2 == "问题描述":
+        st.header("问题描述")
+        st.markdown(q17_salesman.description)
+
+    elif option2 == "流程图":
+        st.header("流程图")
+        flowchart = Image.open("q17_salesman/img/flowchart.png")
+        st.image(flowchart, "流程图", use_column_width=True)
+
+    elif option2 == "语句覆盖":
+        st.header("语句覆盖")
+        st.markdown(q17_salesman.statement)
+        salesman_data = pd.read_csv("q17_salesman/销售系统-语句覆盖.csv")
+
+    elif option2 == "判断覆盖":
+        st.header("判断覆盖")
+        st.markdown(q17_salesman.branch)
+        salesman_data = pd.read_csv("q17_salesman/销售系统-判断覆盖.csv")
+
+    elif option2 == "条件覆盖":
+        st.header("条件覆盖")
+        st.markdown(q17_salesman.condition)
+        salesman_data = pd.read_csv("q17_salesman/销售系统-条件覆盖.csv")
+
+    elif option2 == "判断——条件覆盖":
+        st.header("判断——条件覆盖")
+        st.markdown(q17_salesman.condition_determination)
+        salesman_data = pd.read_csv("q17_salesman/销售系统-判断-条件覆盖.csv")
+
+    else:
+        st.header("条件组合覆盖")
+        st.markdown(q17_salesman.multiple_condition)
+        salesman_data = pd.read_csv("q17_salesman/销售系统-条件组合覆盖.csv")
+
+    if "覆盖" in option2:
+        if st.button("开始测试 :)"):
+            st.header("测试结果")
+            latest_iteration = st.empty()
+            bar = st.progress(0)
+            n_sample = salesman_data.shape[0]
+            n_right, n_wrong = 0, 0
+            wrong_samples = []
+            time_start = time.time()
+            for i in range(1, n_sample + 1):
+                sales = salesman_data.loc[i - 1]['Sales']
+                cash_ratio = salesman_data.loc[i - 1]['CashRatio']
+                cash_ratio = float(cash_ratio.strip('%')) / 100
+                n_leave = salesman_data.loc[i - 1]['LeaveDays']
+                expect = salesman_data.loc[i - 1]['q4_commission']
+                output = q17_salesman.calculate_commission([sales, cash_ratio, n_leave])
+                if float(expect) - output <= 0.01:
+                    n_right = n_right + 1
+                else:
+                    n_wrong = n_wrong + 1
+                    wrong_samples.append((output, expect, i, f'{sales, cash_ratio, n_leave}'))
+                latest_iteration.text(
+                    f'Progress: {n_sample}/{i}. Accuracy: {round(n_right / n_sample, 2) * 100}%')
+                bar.progress(i / n_sample)
+                time.sleep(0.01)
+            time_end = time.time()
+            if n_right == n_sample:
+                text = "tests" if n_sample > 1 else "test"
+                st.success(
+                    f"{n_sample} {text} passed in {round((time_end - time_start) * 1000 - n_sample * 10, 2)} ms.")
+            else:
+                if n_right == 0:
+                    st.error("All tests failed.")
+                else:
+                    st.warning(f"{n_right} passed. {n_wrong} failed.")
+                for sample in wrong_samples:
+                    st.error(f"Test #{sample[2]}: {sample[3]} - Output {sample[0]} is expected to be {sample[1]}")
+
+            st.header("测试结果分析")
+            labels = 'pass', 'fail'
+            sizes = [n_right, n_wrong]
+            plt.pie(sizes, labels=labels, autopct='%1.1f%%', startangle=90)
+            plt.axis('equal')
+            st.pyplot()
