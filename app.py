@@ -156,6 +156,126 @@ if option == "1.三角形类型":
             sizes = [n_right, n_wrong]
             plt.pie(sizes, labels=labels, autopct='%1.1f%%', startangle=90)
             plt.axis('equal')
+            st.set_option('deprecation.showPyplotGlobalUse', False)
+            st.pyplot()
+
+elif option == "2.万年历问题":
+    st.sidebar.markdown(r'''输出给定日期的第二天的日期.''')
+    option2 = st.sidebar.selectbox(
+        '选择输入数据的方式',
+        ['问题描述', '通过.csv文件输入', '手动选择日期测试',
+         '边界值分析法', '等价类测试法', '扩展决策表']
+    )
+    date_data = None
+
+    if option2 == '问题描述':
+        st.header('问题描述')
+        st.markdown(r'''输出给定日期的第二天的日期.''')
+        image = Image.open("./q2_calendar/img/calendar.png")
+        st.image(image, "Calendar", use_column_width=True)
+
+    elif option2 == '通过.csv文件输入':
+        st.header('上传测试文件(.csv)')
+        uploaded_file = st.file_uploader("", type="csv")
+        if uploaded_file is not None:
+            date_data = pd.read_csv(uploaded_file)
+        if st.checkbox('展示测试样例'):
+            st.write(date_data)
+
+    elif option2 == '手动选择日期测试':
+        st.header('手动选择日期')
+        date1 = st.date_input("选择任意日期", datetime.date(2021, 6, 25))
+        date2 = st.date_input("选择在 " + date1.strftime("%Y/%m/%d") + "后一天的日期", datetime.date(2021, 6, 26))
+        if date1 and date2:
+            time_start = time.time()
+            present_date = q2_calendar.PresentDate(date1.year, date1.month, date1.day)
+            output = present_date.add_day(1)
+            time_end = time.time()
+            st.header('测试结果')
+            st.write('Output: ' + output)
+            expected_output = date2.strftime("%#Y/%#m/%#d")
+            if expected_output == output:
+                st.success(f"Test passed in {round((time_end - time_start) * 1000, 2)} ms.")
+            else:
+                st.error(f"测试失败. Output {output} is expected to be {expected_output}")
+
+    elif option2 == '边界值分析法':
+        st.header('边界值法')
+        st.markdown(q2_calendar.md1)
+        st.table(pd.read_csv("./q2_calendar/基本边界值测试.csv"))
+        st.markdown(q2_calendar.md2)
+        st.table(pd.read_csv("./q2_calendar/健壮性边界值测试.csv"))
+        st.markdown(q2_calendar.md3)
+        st.table(pd.read_csv("./q2_calendar/额外测试用例.csv"))
+        date_data = pd.read_csv("./q2_calendar/万年历1-边界值.csv", encoding="utf-8")
+        if st.checkbox('展示测试样例'):
+            st.write(date_data)
+
+    elif option2 == '等价类测试法':
+        st.header('等价类法')
+        st.markdown(q2_calendar.md4)
+        st.table(pd.read_csv("./q2_calendar/强一般等价类.csv"))
+        st.markdown(q2_calendar.md5)
+        st.table(pd.read_csv("./q2_calendar/额外弱健壮.csv"))
+        date_data = pd.read_csv("./q2_calendar/万年历1-等价类.csv", encoding="utf-8")
+        if st.checkbox('展示测试样例'):
+            st.write(date_data)
+
+    else:
+        st.header('扩展决策表')
+        st.markdown(q2_calendar.md6)
+        table = Image.open("./q2_calendar/img/table.png")
+        st.image(table, "万年历扩展决策表", use_column_width=True)
+        st.markdown(q2_calendar.md7)
+        date_data = pd.read_csv("./q2_calendar/万年历9-扩展决策表.csv", encoding="utf-8")
+        st.table(date_data)
+
+    if option2 != '手动选择日期测试' and option2 != '问题描述':
+        if st.button("开始测试 :)"):
+            st.header("测试结果")
+            latest_iteration = st.empty()
+            bar = st.progress(0)
+            if date_data is None:
+                st.warning('数据为空!请检查输入!')
+            n_sample = date_data.shape[0]
+            n_right, n_wrong = 0, 0
+            wrong_samples = []
+            time_start = time.time()
+            for i in range(1, n_sample + 1):
+                year = date_data.loc[i - 1]['year']
+                month = date_data.loc[i - 1]['month']
+                day = date_data.loc[i - 1]['day']
+                expect = date_data.loc[i - 1]['NextDay']
+                test_data = q2_calendar.PresentDate(year, month, day)
+                output = test_data.add_day(1)
+                if expect == output:
+                    n_right = n_right + 1
+                else:
+                    n_wrong = n_wrong + 1
+                    wrong_samples.append((output, expect, i, f'{year}/{month}/{day}'))
+                latest_iteration.text(
+                    f'Progress: {n_sample}/{i}. Accuracy: {round(n_right / n_sample, 2) * 100}%')
+                bar.progress(i / n_sample)
+                time.sleep(0.05)
+            time_end = time.time()
+            if n_right == n_sample:
+                text = "tests" if n_sample > 1 else "test"
+                st.success(
+                    f"{n_sample} {text} passed in {round((time_end - time_start) * 1000 - n_sample * 50, 2)} ms.")
+            else:
+                if n_right == 0:
+                    st.error("All tests failed.")
+                else:
+                    st.warning(f"{n_right} passed. {n_wrong} failed.")
+                for sample in wrong_samples:
+                    st.error(f"Test #{sample[2]}: {sample[3]} - Output {sample[0]} is expected to be {sample[1]}")
+
+            st.header("测试结果分析")
+            labels = "pass", 'failed'
+            sizes = [n_right, n_wrong]
+            plt.pie(sizes, labels=labels, autopct='%1.1f%%', startangle=90)
+            plt.axis('equal')
+            st.set_option('deprecation.showPyplotGlobalUse', False)
             st.pyplot()
 
 #销售系统问题（讨论）
@@ -247,6 +367,7 @@ if option == '4.佣金问题':
             sizes = [n_right, n_wrong]
             plt.pie(sizes, labels=labels, autopct='%1.1f%%', startangle=90)
             plt.axis('equal')
+            st.set_option('deprecation.showPyplotGlobalUse', False)
             st.pyplot()
 
 elif option == '11.正交实验法-WEB系统':
