@@ -14,15 +14,16 @@ import q3_sales_system
 import q4_commission
 import q5_eshop
 import q8_ERP_system
-#import tran_tree
-#import q9
-#import discuss_2
-#import eshop_boundary_4
-#import cs_package_7
-#import scenario_testing_10
+# import tran_tree
+# import q9
+# import discuss_2
+# import eshop_boundary_4
+# import cs_package_7
+# import scenario_testing_10
 import q14_web
 import q17_salesman
-#import testing_tools as tools
+
+# import testing_tools as tools
 
 st.sidebar.title('软件测试平台')
 option = st.sidebar.selectbox(
@@ -44,7 +45,7 @@ st.title(option)
 if option == "1.三角形类型":
     st.sidebar.markdown(q1_triangle.description)
     s_image = Image.open('./q1_triangle/q1_image/triangle.png')
-    #s_image = Image.open('D:\q1\triangle.png')
+    # s_image = Image.open('D:\q1\triangle.png')
     st.sidebar.image(s_image, use_column_width=True)
     option2 = st.sidebar.selectbox(
         '选择输入数据的方式',
@@ -57,7 +58,7 @@ if option == "1.三角形类型":
         st.header('问题描述')
         st.markdown(q1_triangle.description)
         image = Image.open('./q1_triangle/q1_image/triangle.png')
-        #image = Image.open('D:\q1\triangle.png')
+        # image = Image.open('D:\q1\triangle.png')
         st.image(image, "按边长划分的三角形类型", use_column_width=True)
 
     if option2 == '通过.csv文件输入':
@@ -94,20 +95,20 @@ if option == "1.三角形类型":
         st.header('边界值法')
         st.markdown(q1_triangle.md3)
         chart_data = pd.read_csv("./q1_triangle/q1_test_usecase/三角形-边界值.csv", encoding="gbk")
-        #chart_data = pd.read_csv("D:\q1\三角形-边界值.csv", encoding="gbk")
+        # chart_data = pd.read_csv("D:\q1\三角形-边界值.csv", encoding="gbk")
         st.table(chart_data)
 
     if option2 == '等价类测试法':
         st.header('等价类法')
         st.markdown(q1_triangle.md1)
         st.table(pd.read_csv("./q1_triangle/q1_test_usecase/弱一般等价类.csv"))
-        #st.table(pd.read_csv("D:\q1\弱一般等价类.csv"))
+        # st.table(pd.read_csv("D:\q1\弱一般等价类.csv"))
         st.markdown(q1_triangle.md2)
         st.table(pd.read_csv("./q1_triangle/q1_test_usecase/额外弱健壮.csv"))
-        #st.table(pd.read_csv("D:\q1\额外弱健壮.csv"))
+        # st.table(pd.read_csv("D:\q1\额外弱健壮.csv"))
         # st.markdown(r'''所有的测试用例：''')
         chart_data = pd.read_csv("./q1_triangle/q1_test_usecase/三角形-等价类.csv", encoding="gbk")
-        #chart_data = pd.read_csv("D:\q1\三角形-等价类.csv", encoding="gbk")
+        # chart_data = pd.read_csv("D:\q1\三角形-等价类.csv", encoding="gbk")
         if st.checkbox('展示测试样例'):
             st.write(chart_data)
 
@@ -278,7 +279,7 @@ elif option == "2.万年历问题":
             st.set_option('deprecation.showPyplotGlobalUse', False)
             st.pyplot()
 
-#销售系统问题（讨论）
+# 销售系统问题（讨论）
 elif option == '3.讨论题：销售管理系统':
     st.markdown(q3_sales_system.content)
     st.markdown(q3_sales_system.question1)
@@ -286,7 +287,7 @@ elif option == '3.讨论题：销售管理系统':
     st.markdown(q3_sales_system.answer1)
     st.markdown(q3_sales_system.answer2)
 
-if option == '4.佣金问题':
+elif option == '4.佣金问题':
     option2 = st.sidebar.selectbox(
         "选择输入数据的方式",
         ["问题描述", "边界值分析法", '通过.csv文件输入']
@@ -370,23 +371,14 @@ if option == '4.佣金问题':
             st.set_option('deprecation.showPyplotGlobalUse', False)
             st.pyplot()
 
-elif option == '11.正交实验法-WEB系统':
-    option2 = st.sidebar.selectbox(
-        "请选择想要查看的部分",
-        ["问题描述", "状态因素表", "正交表", "测试用例"]
-    )
-    st.header(option2)
-    if option2 == "问题描述":
-        st.markdown(q14_web.content)
-    elif option2 == "状态因素表":
-        st.markdown(q14_web.table1)
-    elif option2 == "正交表":
-        st.markdown(q14_web.table2)
-    elif option2 == "测试用例":
-        st.markdown(q14_web.table3)
+
+elif option == '5.讨论题：电商平台':
+    st.markdown(q5_eshop.content)
+    st.markdown(q5_eshop.answer)
+    st.markdown(q5_eshop.table)
 
 
-#ERP系统（讨论）
+# ERP系统（讨论）
 elif option == '8.讨论题：ERP系统问题':
     option2 = st.sidebar.selectbox(
         "请选择想要查看的部分",
@@ -408,7 +400,24 @@ elif option == '8.讨论题：ERP系统问题':
         st.markdown(q8_ERP_system.logic_usecase)
 
 
-elif option == '13.销售系统问题':
+elif option == '9.讨论题：WEB系统问题':
+    option2 = st.sidebar.selectbox(
+        "请选择想要查看的部分",
+        ["问题描述", "状态因素表", "正交表", "测试用例"]
+    )
+    st.header(option2)
+    if option2 == "问题描述":
+        st.markdown(q14_web.content)
+    elif option2 == "状态因素表":
+        st.markdown(q14_web.table1)
+    elif option2 == "正交表":
+        st.markdown(q14_web.table2)
+    elif option2 == "测试用例":
+        st.markdown(q14_web.table3)
+
+
+
+elif option == '12.销售系统问题':
     option2 = st.sidebar.selectbox(
         "选择输入数据的方式",
         ["问题描述", "流程图", "语句覆盖", "判断覆盖",
