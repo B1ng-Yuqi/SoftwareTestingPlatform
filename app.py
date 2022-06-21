@@ -9,10 +9,10 @@ import re
 
 # import utils
 import q1_triangle
-#import myCalendar
+import q2_calendar
 import q3_sales_system
 import q4_commission
-#import comm_fee
+import q5_eshop
 import q8_ERP_system
 #import tran_tree
 #import q9
