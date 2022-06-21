@@ -13,7 +13,7 @@ import q1_triangle
 import q3_sales_system
 import q4_commission
 #import comm_fee
-
+import q8_ERP_system
 #import tran_tree
 #import q9
 #import discuss_2
@@ -263,6 +263,29 @@ elif option == '11.正交实验法-WEB系统':
         st.markdown(q14_web.table2)
     elif option2 == "测试用例":
         st.markdown(q14_web.table3)
+
+
+#ERP系统（讨论）
+elif option == '8.讨论题：ERP系统问题':
+    option2 = st.sidebar.selectbox(
+        "请选择想要查看的部分",
+        ["问题描述", "主/备选流关系图", "基本流&备选流表", "场景设计列表", "逻辑测试用例列表"]
+    )
+    st.header(option2)
+    if option2 == "问题描述":
+        st.markdown(q8_ERP_system.content)
+        dia = Image.open("./q8_ERP_system/q8_image/flowchart.png")
+        st.image(dia, "系统流程图", use_column_width=True)
+    elif option2 == "主/备选流关系图":
+        dia = Image.open("./q8_ERP_system/q8_image/stream.jpg")
+        st.image(dia, "主/备选流关系图", use_column_width=True)
+    elif option2 == "基本流&备选流表":
+        st.markdown(q8_ERP_system.basic_list)
+    elif option2 == "场景设计列表":
+        st.markdown(q8_ERP_system.scene_list)
+    elif option2 == "逻辑测试用例列表":
+        st.markdown(q8_ERP_system.logic_usecase)
+
 
 elif option == '13.销售系统问题':
     option2 = st.sidebar.selectbox(
