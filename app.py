@@ -15,7 +15,7 @@ import q4_commission
 import q5_eshop
 import q8_ERP_system
 # import tran_tree
-# import q9
+import q16_control_diagram
 # import discuss_2
 # import eshop_boundary_4
 # import cs_package_7
@@ -415,6 +415,12 @@ elif option == '9.讨论题：WEB系统问题':
     elif option2 == "测试用例":
         st.markdown(q14_web.table3)
 
+elif option == '11.C语言程序控制流图':
+    st.header("Code")
+    st.code(q16_control_diagram.code, language="C")
+    st.header("控制流图")
+    dia = Image.open("./q16_control_diagram/img/diagram.jpg")
+    st.image(dia, "控制流图", use_column_width=True)
 
 
 elif option == '12.销售系统问题':
