@@ -43,9 +43,9 @@ option = st.sidebar.selectbox(
 st.title(option)
 if option == "1.三角形类型":
     st.sidebar.markdown(q1_triangle.description)
-    #s_image = Image.open('./q1_triangle/q1_image/triangle.png')
+    s_image = Image.open('./q1_triangle/q1_image/triangle.png')
     #s_image = Image.open('D:\q1\triangle.png')
-    #st.sidebar.image(s_image, use_column_width=True)
+    st.sidebar.image(s_image, use_column_width=True)
     option2 = st.sidebar.selectbox(
         '选择输入数据的方式',
         ['问题描述', '通过.csv文件输入', '通过文本框输入',
@@ -56,9 +56,9 @@ if option == "1.三角形类型":
     if option2 == '问题描述':
         st.header('问题描述')
         st.markdown(q1_triangle.description)
-        #image = Image.open('./q1_triangle/q1_image/triangle.png')
+        image = Image.open('./q1_triangle/q1_image/triangle.png')
         #image = Image.open('D:\q1\triangle.png')
-        #st.image(image, "按边长划分的三角形类型", use_column_width=True)
+        st.image(image, "按边长划分的三角形类型", use_column_width=True)
 
     if option2 == '通过.csv文件输入':
         st.header('上传测试文件(.csv)')
@@ -93,21 +93,21 @@ if option == "1.三角形类型":
     if option2 == '边界值分析法':
         st.header('边界值法')
         st.markdown(q1_triangle.md3)
-        #chart_data = pd.read_csv("./q1_triangle/q1_test_usecase/三角形-边界值.csv", encoding="gbk")
-        chart_data = pd.read_csv("D:\q1\三角形-边界值.csv", encoding="gbk")
+        chart_data = pd.read_csv("./q1_triangle/q1_test_usecase/三角形-边界值.csv", encoding="gbk")
+        #chart_data = pd.read_csv("D:\q1\三角形-边界值.csv", encoding="gbk")
         st.table(chart_data)
 
     if option2 == '等价类测试法':
         st.header('等价类法')
         st.markdown(q1_triangle.md1)
-        #st.table(pd.read_csv("./q1_triangle/q1_test_usecase/弱一般等价类.csv"))
-        st.table(pd.read_csv("D:\q1\弱一般等价类.csv"))
+        st.table(pd.read_csv("./q1_triangle/q1_test_usecase/弱一般等价类.csv"))
+        #st.table(pd.read_csv("D:\q1\弱一般等价类.csv"))
         st.markdown(q1_triangle.md2)
-        #st.table(pd.read_csv("./q1_triangle/q1_test_usecase/额外弱健壮.csv"))
-        st.table(pd.read_csv("D:\q1\额外弱健壮.csv"))
+        st.table(pd.read_csv("./q1_triangle/q1_test_usecase/额外弱健壮.csv"))
+        #st.table(pd.read_csv("D:\q1\额外弱健壮.csv"))
         # st.markdown(r'''所有的测试用例：''')
-        #chart_data = pd.read_csv("./q1_triangle/q1_test_usecase/三角形-等价类.csv", encoding="gbk")
-        chart_data = pd.read_csv("D:\q1\三角形-等价类.csv", encoding="gbk")
+        chart_data = pd.read_csv("./q1_triangle/q1_test_usecase/三角形-等价类.csv", encoding="gbk")
+        #chart_data = pd.read_csv("D:\q1\三角形-等价类.csv", encoding="gbk")
         if st.checkbox('展示测试样例'):
             st.write(chart_data)
 
