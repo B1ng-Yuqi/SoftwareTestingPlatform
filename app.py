@@ -481,6 +481,7 @@ elif option == '6.电信收费问题':
             sizes = [n_right, n_wrong]
             plt.pie(sizes, labels=labels, autopct='%1.1f%%', startangle=90)
             plt.axis('equal')
+            st.set_option('deprecation.showPyplotGlobalUse', False)
             st.pyplot()
 
 elif option == '7.讨论题:C/S系统数据包':
