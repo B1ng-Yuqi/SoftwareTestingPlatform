@@ -498,7 +498,7 @@ elif option == '7.讨论题:C/S系统数据包':
 elif option == '10.ATM状态转化问题':
     option2 = st.sidebar.selectbox(
         "请选择想要查看的部分",
-        ["ATM", "APP 登录"]
+        ["ATM"]
     )
     st.header(option2)
     if option2 == "ATM":
