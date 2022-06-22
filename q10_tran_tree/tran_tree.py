@@ -61,4 +61,4 @@ code = r'''def tran_tree(graph):
 
 if __name__ == '__main__':
     # end_points = [i for i in range(len(graph['nodes'])) if i not in [e[0] for e in graph['edges']]]
-    print(len(tran_tree((state_diagram))['nodes']))
+    print(len(tran_tree(state_diagram)['nodes']))

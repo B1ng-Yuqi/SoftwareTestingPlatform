@@ -1,3 +1,6 @@
+content = r'''
+分析或查阅得到正确的ATM的系统状态图，再基于state transition testing分析出transition tree，最后设计出逻辑测试用例。
+'''
 md = r'''| 状态               | Case1 | Case2 | Case3 | Case4 | Case5 | Case6 | Case7 |
 | ------------------ | ----- | ----- | ----- | ----- | ----- | ----- | ----- |
 | 空闲               | 1     | 1     | 1     | 1     | 1     | 1     | 1     |

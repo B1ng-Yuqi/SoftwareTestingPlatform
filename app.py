@@ -498,9 +498,11 @@ elif option == '7.讨论题:C/S系统数据包':
 elif option == '10.ATM状态转化问题':
     option2 = st.sidebar.selectbox(
         "请选择想要查看的部分",
-        ["ATM"]
+        ["问题描述", "ATM"]
     )
     st.header(option2)
+    if option2 == "问题描述":
+        st.markdown(q10_tran_tree.content)
     if option2 == "ATM":
         st.subheader("状态图")
         atm1 = Image.open("./q10_tran_tree/img/ATM1.png")
