@@ -514,14 +514,6 @@ elif option == '10.ATM状态转化问题':
             st.image(atm2, "ATM Transition Tree", use_column_width=True)
         st.subheader("状态表")
         st.markdown(q10_tran_tree.md)
-    else:
-        st.subheader("状态图")
-        login1 = Image.open("./q10_tran_tree/img/login.png")
-        st.image(login1, "APP Login 状态图", use_column_width=True)
-        st.subheader("用例")
-        login2 = Image.open("./q10_tran_tree/img/login2.png")
-        st.image(login2, "APP Login 用例", use_column_width=True)
-
 
 # ERP系统（讨论）
 elif option == '8.讨论题：ERP系统问题':
