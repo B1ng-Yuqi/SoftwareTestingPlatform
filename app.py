@@ -618,7 +618,7 @@ elif option == '12.销售系统问题':
                 cash_ratio = salesman_data.loc[i - 1]['CashRatio']
                 cash_ratio = float(cash_ratio.strip('%')) / 100
                 n_leave = salesman_data.loc[i - 1]['LeaveDays']
-                expect = salesman_data.loc[i - 1]['q4_commission']
+                expect = salesman_data.loc[i - 1]['commission']
                 output = q17_salesman.calculate_commission([sales, cash_ratio, n_leave])
                 if float(expect) - output <= 0.01:
                     n_right = n_right + 1
