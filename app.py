@@ -336,7 +336,7 @@ elif option == '4.佣金问题':
                 x = commission_data.loc[i - 1]['x']
                 y = commission_data.loc[i - 1]['y']
                 z = commission_data.loc[i - 1]['z']
-                expect = commission_data.loc[i - 1]['q4_commission']
+                expect = commission_data.loc[i - 1]['commission']
                 output = q4_commission.calculate_computer_commission([x, y, z])
                 if float(expect) == output:
                     n_right = n_right + 1
